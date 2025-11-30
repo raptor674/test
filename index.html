@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbase Test</title>
+    <style>
+        /* Optional styling for the link button */
+        .link-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .link-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Chatbase Chatbot Test Page</h2>
+    <p>Your chatbot will load in the bottom corner once the script runs.</p>
+
+    <!-- Clickable link button -->
+    <a href="https://your-website-link.com" target="_blank" class="link-button">
+        Open Chatbase Page
+    </a>
+
+    <!-- Chatbase Script -->
+    <script>
+    (function() {
+        if (!window.chatbase || window.chatbase("getState") !== "initialized") {
+            window.chatbase = (...arguments) => {
+                if (!window.chatbase.q) { 
+                    window.chatbase.q = []; 
+                }
+                window.chatbase.q.push(arguments);
+            };
+
+            window.chatbase = new Proxy(window.chatbase, {
+                get(target, prop) {
+                    if (prop === "q") { 
+                        return target.q; 
+                    }
+                    return (...args) => target(prop, ...args);
+                }
+            });
+        }
+
+        const onLoad = function() {
+            const script = document.createElement("script");
+            script.src = "https://www.chatbase.co/embed.min.js";
+            script.id = "A0HznFz3aBFqmLXP7avzt";  // Your bot ID
+            script.domain = "www.chatbase.co";
+            document.body.appendChild(script);
+        };
+
+        if (document.readyState === "complete") {
+            onLoad();
+        } else {
+            window.addEventListener("load", onLoad);
+        }
+    })();
+    </script>
+
+</body>
+</html>
